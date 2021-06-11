@@ -4,6 +4,7 @@ import com.Dex.Config;
 import com.Dex.Main;
 import com.Dex.Structure.Cell;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -88,7 +89,7 @@ public class PredatorFish extends AbstractFish {
                 {
                     continue;
                 }
-                break;
+                //break;
 
             }
             if (isPregnant())
@@ -102,7 +103,12 @@ public class PredatorFish extends AbstractFish {
     {
         if (isMale) {
             return;
-        } else if (CurrentPregnancy < MaxPregnancy) {
+        }
+        else if (CurrentPregnancy == 0)
+        {
+            return;
+        }
+        else if (CurrentPregnancy < MaxPregnancy && CurrentPregnancy != 0) {
             CurrentPregnancy+=0.1;
             return;
         }
@@ -111,8 +117,8 @@ public class PredatorFish extends AbstractFish {
         int x = Cell.getX();
         int y = Cell.getY();
         Random rand = new Random();
-        List<Integer> directions = this.directions;
-        while (directions.size() != 0 && !isPregnant())
+        List<Integer> directions = new ArrayList<>(this.directions);
+        while (directions.size() != 0 && isPregnant())
         {
             int dir = rand.nextInt(directions.size());
             switch (directions.get(dir))
@@ -158,8 +164,9 @@ public class PredatorFish extends AbstractFish {
                 } else {
                     directions.remove(dir);
                 }
-            }catch (IndexOutOfBoundsException e)
+            }catch (IndexOutOfBoundsException | NullPointerException e)
             {
+                directions.remove(dir);
                 continue;
             }
         }

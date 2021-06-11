@@ -113,7 +113,12 @@ public class HerbFish extends AbstractFish {
     {
         if (isMale) {
             return;
-        } else if (CurrentPregnancy < MaxPregnancy) {
+        }
+        else if (CurrentPregnancy == 0)
+        {
+            return;
+        }
+        else if (CurrentPregnancy < MaxPregnancy && CurrentPregnancy != 0) {
             CurrentPregnancy+=0.1;
             return;
         }
@@ -123,7 +128,7 @@ public class HerbFish extends AbstractFish {
         int y = Cell.getY();
         Random rand = new Random();
         List<Integer> directions = new ArrayList<>(this.directions);
-        while (directions.size() != 0 && !isPregnant())
+        while (directions.size() != 0 && isPregnant())
         {
             int dir = rand.nextInt(directions.size());
             switch (directions.get(dir))
@@ -166,18 +171,19 @@ public class HerbFish extends AbstractFish {
                 if (Main.aquarium.getCell(tempx, tempy).isAviable(this)) {
                     CurrentPregnancy = 0;
                     Main.aquarium.getCell(tempx, tempy).createHerbFish(new HerbFish(Main.aquarium.getCell(tempx, tempy)));
-                    System.out.println("Травоядная рыбка родилась на координатах "+tempx+", "+tempy);
+                    //System.out.println("Травоядная рыбка родилась на координатах "+tempx+", "+tempy);
                 } else {
                     directions.remove(dir);
                 }
-            }catch (IndexOutOfBoundsException e)
+            }catch (IndexOutOfBoundsException | NullPointerException e)
             {
+                directions.remove(dir);
                 continue;
             }
         }
         if (directions.size() == 0)
         {
-            System.out.println("Травоядная рыбка НЕ родилась на координатах "+Cell.getX()+", "+Cell.getY());
+            //System.out.println("Травоядная рыбка НЕ родилась на координатах "+Cell.getX()+", "+Cell.getY());
             CurrentPregnancy = 0;
         }
 
