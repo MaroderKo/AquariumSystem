@@ -52,7 +52,7 @@ public class Aquarium {
                         else {
                             if (HerbFishList.size() + PredatorFishList.size() < Config.get().getMaxFishes()) {
                                 if (rand.nextInt(100) < fishchance) {
-                                    if (rand.nextBoolean()) {
+                                    if (!(rand.nextBoolean() && rand.nextBoolean())) {
                                         HerbFish fish = new HerbFish(cell);
                                         cell.createHerbFish(fish);
                                     } else {

@@ -6,13 +6,13 @@ public class Main {
         aquarium = new Aquarium();
         aquarium.init();
         printinfo();
-        for (int i = 0; i < 599; i++) {
+        for (int i = 0; i < 1500; i++) {
             System.out.println("Итерация " + (i + 1));
             aquarium.newIteration();
         }
         printinfo();
-        aquarium.newIteration();
-        printinfo();
+//        aquarium.newIteration();
+//        printinfo();
         //new MenuGUI();
     }
 

@@ -82,7 +82,7 @@ public class PredatorFish extends AbstractFish {
                     PredatorFish fish = Main.aquarium.getCell(x+i,y+j).getPredatorFish();
                     if (fish != null && fish.isMale)
                     {
-                        CurrentPregnancy = 0.2;
+                        CurrentPregnancy = 0.1;
                     }
                 }
                 catch (IndexOutOfBoundsException | NullPointerException e)

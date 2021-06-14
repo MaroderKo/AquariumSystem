@@ -111,11 +111,11 @@ abstract class AbstractFish {
     public boolean isAlive() {
         if (FoodLevel <= 0) {
             Death = DeathType.ByHunger;
-            System.out.println("Fish at "+Cell.getX()+", "+Cell.getY()+" Dead by Hunger!");
+            //System.out.println("Fish at "+Cell.getX()+", "+Cell.getY()+" Dead by Hunger!");
         }
         if (AgeCurrent > AgeMax) {
             Death = DeathType.ByAge;
-            System.out.println("Fish at "+Cell.getX()+", "+Cell.getY()+" Dead by Age!");
+            //System.out.println("Fish at "+Cell.getX()+", "+Cell.getY()+" Dead by Age!");
         }
         if (Death != DeathType.Null) {
             return false;

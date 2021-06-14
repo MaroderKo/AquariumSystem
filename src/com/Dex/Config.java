@@ -58,6 +58,7 @@ public class Config {
             PredatorFishMaxPregnancy=Double.parseDouble(props.getProperty("PredatorFishMaxPregnancy"));
             PredatorFishFoodDecreaseAmount=Double.parseDouble(props.getProperty("PredatorFishFoodDecreaseAmount"));
             PredatorFishFoodMaxLevel=Double.parseDouble(props.getProperty("PredatorFishFoodMaxLevel"));
+            if (height > 100 || width > 100) throw new AssertionError("Размеры аквариума не могут превышать размеры 100х100");
         } catch (IOException e) {
             throw new IllegalStateException("Invalid config file " + PROPS.getAbsolutePath());
         }

@@ -62,7 +62,7 @@ public class HerbFish extends AbstractFish {
     public double Eated(double amount)
     {
         Death = DeathType.ByPredator;
-        System.out.println("Рыбу на координатах "+Cell.getX()+", "+Cell.getY()+" съели!");
+        //System.out.println("Рыбу на координатах "+Cell.getX()+", "+Cell.getY()+" съели!");
         return Math.min(amount, FoodLevel);
     }
 
@@ -90,8 +90,8 @@ public class HerbFish extends AbstractFish {
                     HerbFish fish = Main.aquarium.getCell(x+i,y+j).getHerbFish();
                     if (fish != null && fish.isMale)
                     {
-                        System.out.println("FishPregnant1");
-                        CurrentPregnancy = 0.2;
+                        //System.out.println("FishPregnant1");
+                        CurrentPregnancy = 0.1;
                     }
                 }
                 catch (IndexOutOfBoundsException | NullPointerException e)
@@ -103,7 +103,7 @@ public class HerbFish extends AbstractFish {
             }
             if (isPregnant())
             {
-                System.out.println("FishPregnant2");
+                //System.out.println("FishPregnant2");
                 break;
             }
         }
