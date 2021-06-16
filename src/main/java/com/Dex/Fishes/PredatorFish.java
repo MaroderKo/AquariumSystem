@@ -48,8 +48,6 @@ public class PredatorFish extends AbstractFish {
             newCell.movePredatorFishHere(this);
             this.Cell.movePredatorFish();
             this.Cell = newCell;
-            this.FoodLevel-=FoodDecreaseAmount;
-            this.AgeCurrent+=0.1;
             return true;
         }
         else

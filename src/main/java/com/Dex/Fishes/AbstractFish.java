@@ -160,4 +160,10 @@ abstract class AbstractFish {
     public double getFoodLevel() {
         return FoodLevel;
     }
+
+    public void validate()
+    {
+        this.FoodLevel-=FoodDecreaseAmount;
+        this.AgeCurrent+=0.1;
+    }
 }

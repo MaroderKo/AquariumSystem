@@ -26,7 +26,8 @@ public class Aquarium {
     }
     public void makeLive()
     {
-
+        int Predators =Config.get().getMaxPredatorFishes();
+        int HFishes = Config.get().getMaxHerbFishes();
         int fishchance = (Height*Width)/Config.get().getMaxFishes();
         assert fishchance <= 100;
         if (fishchance == 0)
@@ -36,7 +37,7 @@ public class Aquarium {
         Random rand = new Random();
         boolean StoneSpawned = false;
         boolean HerbSpawned = false;
-        while (HerbFishList.size()+PredatorFishList.size()<Config.get().getMaxFishes()) {
+        while (Predators > 0 || HFishes > 0) {
             for (int i = 0; i < Width; i++) {
                 for (int j = 0; j < Height; j++) {
                     Cell cell = CellList.get(i).get(j);
@@ -51,14 +52,16 @@ public class Aquarium {
                             cell.createHerb(herb);
                         }
                         else {
-                            if (HerbFishList.size() + PredatorFishList.size() < Config.get().getMaxFishes()) {
+                            if (Predators > 0 || HFishes > 0) {
                                 if (rand.nextInt(100) < fishchance) {
-                                    if (!(rand.nextBoolean() && rand.nextBoolean())) {
+                                    if (HFishes > 0) {
                                         HerbFish fish = new HerbFish(cell);
                                         cell.createHerbFish(fish);
-                                    } else {
+                                        HFishes-=1;
+                                    } else if (Predators>0) {
                                         PredatorFish fish = new PredatorFish(cell);
                                         cell.createPredatorFish(fish);
+                                        Predators-=1;
                                     }
                                 }
                             }
@@ -193,6 +196,7 @@ public class Aquarium {
                     herbFish.Eat();
                     herbFish.tryDoPregnant();
                     herbFish.PregnantCheck();
+                    herbFish.validate();
                 }
             }
             ArrayList<PredatorFish> oldPFishes = new ArrayList<>(PredatorFishList);
@@ -204,6 +208,7 @@ public class Aquarium {
                     predatorFish.Eat();
                     predatorFish.tryDoPregnant();
                     predatorFish.PregnantCheck();
+                    predatorFish.validate();
                 }
             }
             ArrayList<Herb> oldHerbs = new ArrayList<>(HerbList);
@@ -222,7 +227,6 @@ public class Aquarium {
             }
 
 
-            //TODO: pregnancy
 
 
     }

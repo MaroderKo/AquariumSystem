@@ -41,8 +41,6 @@ public class HerbFish extends AbstractFish {
             newCell.moveHerbFishHere(this);
             this.Cell.moveHerbFish();
             this.Cell = newCell;
-            this.FoodLevel-=FoodDecreaseAmount;
-            this.AgeCurrent+=0.1;
             return true;
         }
         else

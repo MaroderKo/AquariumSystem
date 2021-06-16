@@ -6,7 +6,6 @@ import com.Dex.Main;
 import com.Dex.Objects.Herb;
 import com.Dex.Objects.Stone;
 import com.Dex.Servlets.AquariumServlet;
-import com.sun.istack.internal.Nullable;
 
 public class Cell {
     int X;
@@ -84,7 +83,7 @@ public class Cell {
     public Stone getStone() {
         return stone;
     }
-    @Nullable
+
     public HerbFish getHerbFish() {
         return herbFish;
     }
