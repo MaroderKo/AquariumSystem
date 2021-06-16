@@ -5,6 +5,7 @@ import com.Dex.Fishes.PredatorFish;
 import com.Dex.Main;
 import com.Dex.Objects.Herb;
 import com.Dex.Objects.Stone;
+import com.Dex.Servlets.AquariumServlet;
 import com.sun.istack.internal.Nullable;
 
 public class Cell {
@@ -30,49 +31,49 @@ public class Cell {
     }
     public void createStone(Stone stone)
     {
-        Main.aquarium.registerStone(stone);
+        AquariumServlet.aquarium.registerStone(stone);
         this.stone = stone;
     }
 
     public void createHerb(Herb herb)
     {
-        Main.aquarium.registerHerb(herb);
+        AquariumServlet.aquarium.registerHerb(herb);
         this.herb = herb;
     }
 
     public void createHerbFish(HerbFish fish)
     {
-        Main.aquarium.registerHerbFish(fish);
+        AquariumServlet.aquarium.registerHerbFish(fish);
         herbFish = fish;
     }
 
     public void createPredatorFish(PredatorFish fish)
     {
-        Main.aquarium.registerPredatorFish(fish);
+        AquariumServlet.aquarium.registerPredatorFish(fish);
         predatorFish = fish;
     }
 
     public void removeStone(Stone stone)
     {
-        Main.aquarium.removeStone(stone);
+        AquariumServlet.aquarium.removeStone(stone);
         this.stone = null;
     }
 
     public void removeHerb(Herb herb)
     {
-        Main.aquarium.removeHerb(herb);
+        AquariumServlet.aquarium.removeHerb(herb);
         this.herb = null;
     }
 
     public void removeHerbFish(HerbFish fish)
     {
-        Main.aquarium.removeHerbFish(fish);
+        AquariumServlet.aquarium.removeHerbFish(fish);
         herbFish = null;
     }
 
     public void removePredatorFish(PredatorFish fish)
     {
-        Main.aquarium.removePredatorFish(fish);
+        AquariumServlet.aquarium.removePredatorFish(fish);
         predatorFish = null;
     }
 
@@ -130,5 +131,6 @@ public class Cell {
     {
         this.predatorFish = fish;
     }
+
+
 }
-//TODO: Спросить при соседстве с травоядной рыбой-ли хищник её ест или при наложении

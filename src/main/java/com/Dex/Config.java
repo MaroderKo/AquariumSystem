@@ -1,5 +1,8 @@
 package com.Dex;
 
+import com.Dex.Servlets.AquariumServlet;
+
+import javax.servlet.ServletContext;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -7,7 +10,7 @@ import java.io.InputStream;
 import java.util.Properties;
 //SingleTone
 public class Config {
-    private static final File PROPS = new File("config/resumes.properties");
+    private static File PROPS;
     private static final Config INSTANCE = new Config();
 
 
@@ -29,12 +32,16 @@ public class Config {
     private final double PredatorFishMaxPregnancy;
     private final double PredatorFishFoodDecreaseAmount;
     private final double PredatorFishFoodMaxLevel;
-
+    private final int maxHerbFishes;
+    private final int maxPredatorFishes;
+    ServletContext application = AquariumServlet.context;
     public static Config get() {
         return INSTANCE;
     }
 
     private Config() {
+        String Path = application.getRealPath("/config/resumes.properties");
+        PROPS = new File(Path);
         try (InputStream is = new FileInputStream(PROPS)) {
             Properties props = new Properties();
             props.load(is);
@@ -58,6 +65,8 @@ public class Config {
             PredatorFishMaxPregnancy=Double.parseDouble(props.getProperty("PredatorFishMaxPregnancy"));
             PredatorFishFoodDecreaseAmount=Double.parseDouble(props.getProperty("PredatorFishFoodDecreaseAmount"));
             PredatorFishFoodMaxLevel=Double.parseDouble(props.getProperty("PredatorFishFoodMaxLevel"));
+            maxHerbFishes = Integer.parseInt(props.getProperty("maxHerbFishes"));
+            maxPredatorFishes = Integer.parseInt(props.getProperty("maxPredatorFishes"));
             if (height > 100 || width > 100) throw new AssertionError("Размеры аквариума не могут превышать размеры 100х100");
         } catch (IOException e) {
             throw new IllegalStateException("Invalid config file " + PROPS.getAbsolutePath());
@@ -134,5 +143,13 @@ public class Config {
 
     public double getPredatorFishFoodMaxLevel() {
         return PredatorFishFoodMaxLevel;
+    }
+
+    public int getMaxHerbFishes() {
+        return maxHerbFishes;
+    }
+
+    public int getMaxPredatorFishes() {
+        return maxPredatorFishes;
     }
 }

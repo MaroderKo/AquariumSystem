@@ -3,7 +3,7 @@ package com.Dex;
 public class Main {
     public static Aquarium aquarium;
     public static void main(String[] args) {
-        aquarium = new Aquarium();
+
         aquarium.init();
         printinfo();
         for (int i = 0; i < 1500; i++) {

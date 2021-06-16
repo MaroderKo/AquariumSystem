@@ -26,6 +26,7 @@ public class Aquarium {
     }
     public void makeLive()
     {
+
         int fishchance = (Height*Width)/Config.get().getMaxFishes();
         assert fishchance <= 100;
         if (fishchance == 0)
@@ -126,7 +127,7 @@ public class Aquarium {
                 }
                 else if (CellList.get(i).get(j).getHerbFish() != null)
                 {
-                    if (CellList.get(i).get(j).getHerbFish().isMale()) {
+                    if (CellList.get(i).get(j).getHerbFish().getisMale()) {
                         sb.append("F");
                     }
                     else
@@ -235,5 +236,9 @@ public class Aquarium {
         {
             return null;
         }
+    }
+
+    public List<List<Cell>> getCells() {
+        return CellList;
     }
 }

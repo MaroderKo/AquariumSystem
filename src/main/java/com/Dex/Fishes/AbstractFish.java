@@ -103,7 +103,7 @@ abstract class AbstractFish {
     abstract boolean trymove(int x, int y);
 
     public abstract boolean removeCorpse();
-    public boolean isMale()
+    public boolean getisMale()
     {
         return isMale;
     }
@@ -123,8 +123,41 @@ abstract class AbstractFish {
         {return true;}
     }
 
-    public boolean isPregnant()
+    public boolean getisPregnant()
     {
         return CurrentPregnancy != 0;
+    }
+    public int getHungry() {
+        if (FoodLevel <= FoodMaxLevel*0.3)
+        {
+            return 0;
+        }
+        else if (FoodLevel <= FoodMaxLevel*0.7)
+        {
+            return 1;
+        }
+        else
+        {
+            return 2;
+        }
+    }
+
+    public int getAge() {
+        if (AgeCurrent <= AgeBeginMature)
+        {
+            return 0;
+        }
+        else if (AgeCurrent <= AgeEndMature)
+        {
+            return 1;
+        }
+        else
+        {
+            return 2;
+        }
+    }
+
+    public double getFoodLevel() {
+        return FoodLevel;
     }
 }

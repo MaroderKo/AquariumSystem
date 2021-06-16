@@ -1,52 +1,45 @@
 package com.Dex.Fishes;
 
 import com.Dex.Config;
-import com.Dex.Main;
+import com.Dex.Objects.Herb;
+import com.Dex.Servlets.AquariumServlet;
 import com.Dex.Structure.Cell;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class PredatorFish extends AbstractFish {
+public class HerbFish extends AbstractFish {
 
-    public PredatorFish(Cell cell)
+    public HerbFish(Cell cell)
     {
         Cell = cell;
         Random rand = new Random();
-        AgeBeginMature = Config.get().getPredatorFishAgeBeginMature();
-        AgeEndMature = Config.get().getPredatorFishAgeEndMature();
-        AgeMax = Config.get().getPredatorFishAgeMax();
+        AgeBeginMature = Config.get().getHerbFishAgeBeginMature();
+        AgeEndMature = Config.get().getHerbFishAgeEndMature();
+        AgeMax = Config.get().getHerbFishAgeMax();
         AgeCurrent = 0.1;
         CurrentPregnancy = 0;
-        MaxPregnancy = Config.get().getPredatorFishMaxPregnancy();
+        MaxPregnancy = Config.get().getHerbFishMaxPregnancy();
         isMale = rand.nextInt()<50;
         Death = DeathType.Null;
-        FoodDecreaseAmount = Config.get().getPredatorFishFoodDecreaseAmount();
-        FoodMaxLevel = Config.get().getPredatorFishFoodMaxLevel();
+        FoodDecreaseAmount = Config.get().getHerbFishFoodDecreaseAmount();
+        FoodMaxLevel = Config.get().getHerbFishFoodMaxLevel();
         FoodLevel = FoodMaxLevel;
     }
 
-    public void Eat()
-    {
-        if (Cell.getHerbFish() != null && FoodLevel < FoodMaxLevel*0.6)
-        {
-            HerbFish fish = Cell.getHerbFish();
-            FoodLevel += fish.Eated(FoodMaxLevel - FoodLevel);
-        }
 
-    }
     @Override
     boolean trymove(int x, int y) {
-        Cell newCell = Main.aquarium.getCell(x,y);
+        Cell newCell = AquariumServlet.aquarium.getCell(x,y);
         if (newCell == null)
         {
             return false;
         }
         if (newCell.isAviable(this))
         {
-            newCell.movePredatorFishHere(this);
-            this.Cell.movePredatorFish();
+            newCell.moveHerbFishHere(this);
+            this.Cell.moveHerbFish();
             this.Cell = newCell;
             this.FoodLevel-=FoodDecreaseAmount;
             this.AgeCurrent+=0.1;
@@ -58,11 +51,26 @@ public class PredatorFish extends AbstractFish {
         }
     }
 
+    public void Eat()
+    {
+        if (Cell.getHerb() != null) {
+            Herb herb = Cell.getHerb();
+            FoodLevel += herb.Eat(FoodMaxLevel - FoodLevel);
+        }
+    }
+
+    public double Eated(double amount)
+    {
+        Death = DeathType.ByPredator;
+        //System.out.println("Рыбу на координатах "+Cell.getX()+", "+Cell.getY()+" съели!");
+        return Math.min(amount, FoodLevel);
+    }
+
     @Override
     public boolean removeCorpse() {
         if (!isAlive())
         {
-            Cell.removePredatorFish(this);
+            Cell.removeHerbFish(this);
             this.Cell = null;
             return true;
         }
@@ -72,16 +80,17 @@ public class PredatorFish extends AbstractFish {
     public void tryDoPregnant() {
         if (isMale)
             return;
-        if (isPregnant() || AgeCurrent < AgeBeginMature || AgeCurrent > AgeEndMature)
+        if (getisPregnant() || AgeCurrent < AgeBeginMature || AgeCurrent > AgeEndMature)
             return;
         int x = Cell.getX();
         int y = Cell.getY();
         for (int i = -1; i < 2; i++) {
             for (int j = -1; j < 2; j++) {
                 try {
-                    PredatorFish fish = Main.aquarium.getCell(x+i,y+j).getPredatorFish();
+                    HerbFish fish = AquariumServlet.aquarium.getCell(x+i,y+j).getHerbFish();
                     if (fish != null && fish.isMale)
                     {
+                        //System.out.println("FishPregnant1");
                         CurrentPregnancy = 0.1;
                     }
                 }
@@ -92,8 +101,9 @@ public class PredatorFish extends AbstractFish {
                 //break;
 
             }
-            if (isPregnant())
+            if (getisPregnant())
             {
+                //System.out.println("FishPregnant2");
                 break;
             }
         }
@@ -118,7 +128,7 @@ public class PredatorFish extends AbstractFish {
         int y = Cell.getY();
         Random rand = new Random();
         List<Integer> directions = new ArrayList<>(this.directions);
-        while (directions.size() != 0 && isPregnant())
+        while (directions.size() != 0 && getisPregnant())
         {
             int dir = rand.nextInt(directions.size());
             switch (directions.get(dir))
@@ -158,9 +168,10 @@ public class PredatorFish extends AbstractFish {
 
             }
             try {
-                if (Main.aquarium.getCell(tempx, tempy).isAviable(this)) {
+                if (AquariumServlet.aquarium.getCell(tempx, tempy).isAviable(this)) {
                     CurrentPregnancy = 0;
-                    Main.aquarium.getCell(tempx, tempy).createPredatorFish(new PredatorFish(Main.aquarium.getCell(tempx, tempy)));
+                    AquariumServlet.aquarium.getCell(tempx, tempy).createHerbFish(new HerbFish(AquariumServlet.aquarium.getCell(tempx, tempy)));
+                    //System.out.println("Травоядная рыбка родилась на координатах "+tempx+", "+tempy);
                 } else {
                     directions.remove(dir);
                 }
@@ -172,8 +183,14 @@ public class PredatorFish extends AbstractFish {
         }
         if (directions.size() == 0)
         {
+            //System.out.println("Травоядная рыбка НЕ родилась на координатах "+Cell.getX()+", "+Cell.getY());
             CurrentPregnancy = 0;
         }
 
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(FoodLevel);
     }
 }
